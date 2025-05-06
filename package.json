@@ -1,11 +1,7 @@
 {
-  "name": "my-project",
-  "version": "1.0.0",
-  "description": "Proyek web sederhana",
-  "main": "index.html",
-  "scripts": {
-    "start": "live-server"
-  },
-  "author": "Nama Anda",
-  "license": "ISC"
+  "version": 2,
+  "routes": [
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/home", "dest": "/home.html" }
+  ]
 }
