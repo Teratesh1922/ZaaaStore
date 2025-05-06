@@ -2,18 +2,17 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Project</title>
+  <title>Login</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>Selamat datang di My Project</h1>
-    <p>Ini adalah halaman utama dari proyek ini.</p>
-  </header>
-
-  <button id="changeTextButton">Klik untuk mengubah teks</button>
-
+  <div class="login-box">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="login()">Masuk</button>
+    <p id="error-msg"></p>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
