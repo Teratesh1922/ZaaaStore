@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home - ZAA TRX</title>
+  <title>ZAA TRX - Panel & Jashare Services</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
   <style>
-    /* Pastekan CSS disini jika belum ada */
     :root {
       --primary: #2e7d32;
       --primary-light: #4caf50;
@@ -36,6 +35,32 @@
       overflow-x: hidden;
     }
 
+    .leaf {
+      position: absolute;
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.7;
+      z-index: -1;
+      animation: falling linear infinite;
+    }
+
+    @keyframes falling {
+      0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+      }
+      90% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -44,77 +69,281 @@
       z-index: 1;
     }
 
-    /* Your CSS rules for product-grid, product-card, etc. */
+    header {
+      text-align: center;
+      padding: 80px 0 40px;
+      position: relative;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      border-radius: 50%;
+    }
+
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 15px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 5px rgba(46, 125, 50, 0.5);
+      }
+      to {
+        text-shadow: 0 0 20px rgba(76, 175, 80, 0.8), 0 0 30px rgba(139, 195, 74, 0.6);
+      }
+    }
+
+    .tagline {
+      font-size: 1.2rem;
+      color: var(--gray);
+      margin-bottom: 30px;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 30px 0;
+    }
+
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid var(--primary);
+    }
+
+    .divider-text {
+      padding: 0 20px;
+      color: var(--secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 25px;
+      margin: 40px 0;
+    }
+
+    .product-card {
+      background: linear-gradient(145deg, #263238, #2c393f);
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      border-left: 4px solid var(--primary);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 50%, rgba(76, 175, 80, 0.1), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-15px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      transform: scale(1.05);
+    }
+
+    .product-card:hover::before {
+      opacity: 0.3;
+    }
+
+    .product-title {
+      font-size: 1.5rem;
+      color: var(--primary-light);
+      margin-bottom: 15px;
+      position: relative;
+      display: inline-block;
+      text-transform: uppercase;
+    }
+
+    .product-title::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 3px;
+      transform: scaleX(0);
+      animation: scaleIn 0.5s ease-out forwards;
+    }
+
+    @keyframes scaleIn {
+      to {
+        transform: scaleX(1);
+      }
+    }
+
+    .product-price {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 15px 0;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .product-features {
+      list-style: none;
+      margin: 20px 0;
+    }
+
+    .product-features li {
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .product-features li:hover {
+      transform: translateX(10px);
+      color: var(--primary-light);
+    }
+
+    .product-features li::before {
+      content: '🌿';
+      position: absolute;
+      left: 0;
+    }
+
+    .product-note {
+      font-size: 0.9rem;
+      color: var(--gray);
+      font-style: italic;
+      margin-top: 15px;
+    }
+
+    .highlight {
+      background-color: rgba(76, 175, 80, 0.2);
+      padding: 2px 8px;
+      border-radius: 4px;
+      color: var(--secondary);
+      font-weight: 500;
+    }
+
+    .cta-section {
+      text-align: center;
+      margin: 50px 0;
+      padding: 30px;
+      background-color: var(--primary-dark);
+      border-radius: 10px;
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .cta-section h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--light);
+      margin-bottom: 20px;
+    }
+
+    .cta-section p {
+      font-size: 1.2rem;
+      color: var(--gray);
+      margin-bottom: 30px;
+    }
+
+    .cta-button {
+      background-color: var(--primary);
+      color: var(--light);
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .cta-button:hover {
+      background-color: var(--primary-light);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      background-color: var(--darker);
+      color: var(--light);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--primary-light);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Your existing content, e.g., navigation, header, etc. -->
+    <header>
+      <div class="logo">ZAA TRX</div>
+      <p class="tagline">Panel & Jashare Services</p>
+    </header>
 
-    <!-- Sisipkan bagian produk di sini -->
     <section class="divider">
       <div class="divider-text">Our Panels</div>
     </section>
 
     <section class="product-grid">
-      <div class="product-card">
-        <div class="product-title">Reseller Panel 5K</div>
-        <div class="product-price">IDR 5,000</div>
-        <ul class="product-features">
-          <li>Create your panel</li>
-          <li>Sell your panels</li>
-          <li>Guaranteed Balmood Service</li>
-        </ul>
-        <p class="product-note">For those starting their journey in the panel business.</p>
-      </div>
-
-      <div class="product-card">
-        <div class="product-title">Admin Panel 10K</div>
-        <div class="product-price">IDR 10,000</div>
-        <ul class="product-features">
-          <li>Open Reseller Panel</li>
-          <li>Advanced control</li>
-          <li>Guaranteed Badmood Service</li>
-        </ul>
-        <p class="product-note">For more advanced panel management.</p>
-      </div>
-
-      <div class="product-card">
-        <div class="product-title">PT Panel 15K</div>
-        <div class="product-price">IDR 15,000</div>
-        <ul class="product-features">
-          <li>Open PT Panel</li>
-          <li>Open Admin Panel</li>
-          <li>Comprehensive control</li>
-          <li>tes</li>
-        </ul>
-        <p class="product-note">Ideal for experienced panel admins.</p>
-      </div>
-
-      <div class="product-card">
-        <div class="product-title">Owner Panel 20K</div>
-        <div class="product-price">IDR 20,000</div>
-        <ul class="product-features">
-          <li>Complete ownership control</li>
-          <li>All privileges unlocked</li>
-          <li>Perfect for experts</li>
-        </ul>
-        <p class="product-note">Full ownership for ultimate control.</p>
-      </div>
+      <!-- Add product cards here -->
     </section>
 
-    <!-- Call to action -->
     <section class="cta-section">
       <h2>Get Started Today!</h2>
       <p>Explore the various panels and services we offer. Choose the right one for you and take your business to the next level.</p>
       <a href="wa.me/6282285661325" class="cta-button">Contact Us</a>
     </section>
-
-    <!-- Footer -->
-    <footer>
-      <p>© 2025 ZAA TRX. All rights reserved.</p>
-      <p>For more details, check out our <a href="https://whatsapp.com/channel/0029Vaz4Pcp">Whatsapp Channel</a></p>
-    </footer>
   </div>
+
+  <footer>
+    <p>© 2025 ZAA TRX. All rights reserved.</p>
+    <p>For more details, check out our <a href="https://whatsapp.com/channel/0029Vaz4Pcp">Whatsapp Channel</a></p>
+  </footer>
 </body>
 </html>
