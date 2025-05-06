@@ -2,97 +2,140 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - ZAA TRX</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      background-color: #1a2326;
-      color: #f5f5f5;
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+    :root {
+      --primary: #2e7d32;
+      --error: #e53935;
+      --light: #f5f5f5;
+      --dark: #1a2326;
     }
 
-    .login-box {
-      background: #263238;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--dark);
+      color: var(--light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .login-container {
+      background-color: #263238;
+      padding: 40px;
+      border-radius: 15px;
       width: 100%;
-      max-width: 400px;
+      max-width: 450px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
     }
 
     h2 {
       text-align: center;
-      color: #4caf50;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
+      font-size: 2rem;
+      color: var(--primary);
     }
 
-    input {
+    input[type="text"],
+    input[type="password"] {
       width: 100%;
-      padding: 12px;
-      margin: 10px 0;
+      padding: 15px;
+      margin: 10px 0 20px;
       border: none;
-      border-radius: 5px;
-      background-color: #37474f;
-      color: white;
+      border-radius: 8px;
+      font-size: 1rem;
     }
 
-    button {
+    input[type="submit"] {
       width: 100%;
-      padding: 12px;
-      background-color: #4caf50;
+      padding: 15px;
+      background-color: var(--primary);
       border: none;
-      border-radius: 5px;
-      color: white;
-      font-weight: bold;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1rem;
       cursor: pointer;
-      margin-top: 10px;
+      transition: background-color 0.3s ease;
     }
 
-    button:hover {
-      background-color: #66bb6a;
+    input[type="submit"]:hover {
+      background-color: #4caf50;
     }
 
-    p {
-      text-align: center;
-      margin-top: 15px;
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 16px 24px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1rem;
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.4s ease;
+      display: none;
     }
 
-    a {
-      color: #ffc107;
-      text-decoration: none;
-    }
+    .toast.success { background-color: var(--primary); }
+    .toast.error { background-color: var(--error); }
 
-    a:hover {
-      text-decoration: underline;
-    }
   </style>
 </head>
 <body>
-  <div class="login-box">
+
+  <div class="login-container">
     <h2>Login</h2>
-    <input type="text" id="username" placeholder="Nama pengguna">
-    <input type="password" id="password" placeholder="Kata sandi">
-    <button onclick="login()">Login</button>
-    <p>Belum punya akun? <a href="register.html">Daftar</a></p>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <input type="submit" value="Masuk">
+    </form>
   </div>
 
-  <script>
-    function login() {
-      const inputUser = document.getElementById('username').value;
-      const inputPass = document.getElementById('password').value;
-      const savedUser = JSON.parse(localStorage.getItem("user"));
+  <div id="toast" class="toast"></div>
 
-      if (savedUser && inputUser === savedUser.username && inputPass === savedUser.password) {
-        alert("Login berhasil!");
-        window.location.href = "home.html";
-      } else {
-        alert("Nama pengguna atau kata sandi salah.");
-      }
+  <script>
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = `toast ${type}`;
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateY(0)';
+      }, 100);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(20px)';
+        setTimeout(() => toast.style.display = 'none', 300);
+      }, 3000);
     }
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      // Contoh validasi sederhana
+      if (username === 'admin' && password === '12345') {
+        showToast('Login berhasil, selamat datang!', 'success');
+        // window.location.href = 'home.html';
+      } else {
+        showToast('Username atau password salah!', 'error');
+      }
+    });
   </script>
+
 </body>
 </html>
