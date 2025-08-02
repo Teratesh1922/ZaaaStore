@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Spam Telegram (Gambar + Teks) - Awan & Sibayu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f1f1;
+      padding: 20px;
+    }
+    textarea, input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #2d89ef;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1c65c8;
+    }
+    .result {
+      white-space: pre-wrap;
+      background: #fff;
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🚀 Multi-Bot Spam ke Telegram</h2>
+
+  <label><b>Chat ID Tujuan:</b></label>
+  <input type="text" id="chatid" placeholder="Contoh: 123456789">
+
+  <label><b>Pesan Teks (boleh kosong):</b></label>
+  <textarea id="pesan" placeholder="Tulis pesan di sini (bisa dikirim tanpa gambar)"></textarea>
+
+  <label><b>URL Gambar (opsional):</b></label>
+  <input type="text" id="gambar" placeholder="Contoh: https://example.com/foto.jpg">
+
+  <button onclick="kirim()">🚨 Kirim Sekarang</button>
+
+  <div class="result" id="hasil"></div>
+
+  <script>
+    const tokens = [
+      "7964039002:AAFD8GVzofT-HKtTFwkDeghcrlw_RsH2Qf8",
+      "7252285807:AAH0uQg6lsosGTTYiHUucKxi-bHS8cffR80",
+      "7881408152:AAEaDZnX1kGRce6ke8EzdRDzF-9QllSffr0",
+      "8118200737:AAEWI0I7eGZmO73KgQbNfncGx-DWNxgZZ_Q",
+      "8447325860:AAGwTofmeTYLa0KHZaL7xmkzEEsjV_2Gw1Q"
+    ];
+
+    async function kirim() {
+      const chatId = document.getElementById("chatid").value.trim();
+      const pesan = document.getElementById("pesan").value.trim();
+      const gambar = document.getElementById("gambar").value.trim();
+      const hasil = document.getElementById("hasil");
+
+      if (!chatId) {
+        hasil.innerHTML = "⚠️ Masukkan chat ID terlebih dahulu.";
+        return;
+      }
+
+      if (!pesan && !gambar) {
+        hasil.innerHTML = "⚠️ Isi minimal pesan teks atau URL gambar.";
+        return;
+      }
+
+      hasil.innerHTML = "⏳ Mengirim...\n";
+      let sukses = 0, gagal = 0;
+
+      for (const token of tokens) {
+        try {
+          let res;
+          if (gambar) {
+            res = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                chat_id: chatId,
+                photo: gambar,
+                caption: pesan || ""
+              })
+            });
+          } else {
+            res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                chat_id: chatId,
+                text: pesan
+              })
+            });
+          }
+
+          const data = await res.json();
+          if (data.ok) {
+            hasil.innerHTML += `✅ Berhasil dari bot: ${token.slice(0, 10)}...\n`;
+            sukses++;
+          } else {
+            hasil.innerHTML += `❌ Gagal dari bot: ${token.slice(0, 10)} | ${data.description}\n`;
+            gagal++;
+          }
+        } catch (err) {
+          hasil.innerHTML += `❌ Error dari bot: ${token.slice(0, 10)} | ${err.message}\n`;
+          gagal++;
+        }
+      }
+
+      hasil.innerHTML += `\n📊 Total: ${sukses} Berhasil, ${gagal} Gagal`;
+    }
+  </script>
+
+</body>
+</html>
